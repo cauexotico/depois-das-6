@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-export default function Home() {
+export default function Home({videos}) {
   return (
     <div className="bg-primary">
 			<Head>
@@ -21,6 +21,19 @@ export default function Home() {
 
                 <div className="bg-white w-1/3 mt-2">
                     <p>Youtube</p>
+                    {videos.items.map((video) => (
+                        video.id.kind == 'youtube#video' &&
+                        <div key={video.id.videoId}>
+                            <Image
+                                src={video.snippet.thumbnails.default.url}
+                                width={video.snippet.thumbnails.default.width}
+                                height={video.snippet.thumbnails.default.height}/>
+
+                            <p>
+                                {video.snippet.title}
+                            </p>
+                        </div>
+                    ))}
 
                     <p>Spotify</p> 
                 </div>
@@ -29,3 +42,21 @@ export default function Home() {
     </div>
   )
 }
+
+export async function getStaticProps() {
+    const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&channelId=UCZBlguiAcGZtfiMQ_-UvL1w&part=snippet,id&order=date`
+    const res = await fetch(apiUrl)
+    const videos = await res.json()
+  
+    if (!videos) {
+      return {
+        notFound: true,
+      }
+    }
+  
+    return {
+      props: {
+        videos,
+      },
+    }
+  }
