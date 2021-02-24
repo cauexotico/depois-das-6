@@ -58,5 +58,7 @@ export async function getStaticProps() {
       props: {
         videos,
       },
+      //Searches for new videos every 30 minutes
+      revalidate: 1800 
     }
-  }
+}
