@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import YoutubeVideo from '../components/youtube-video'
 
 export default function Home({videos}) {
   return (
@@ -21,18 +22,13 @@ export default function Home({videos}) {
 
                 <div className="bg-white w-1/3 mt-2">
                     <p>Youtube</p>
+                    
                     {videos.items.map((video) => (
                         video.id.kind == 'youtube#video' &&
-                        <div key={video.id.videoId}>
-                            <Image
-                                src={video.snippet.thumbnails.default.url}
-                                width={video.snippet.thumbnails.default.width}
-                                height={video.snippet.thumbnails.default.height}/>
 
-                            <p>
-                                {video.snippet.title}
-                            </p>
-                        </div>
+                        <>
+                            <YoutubeVideo video={video}/>
+                        </>
                     ))}
 
                     <p>Spotify</p> 
