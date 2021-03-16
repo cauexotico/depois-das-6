@@ -12,26 +12,43 @@ export default function Home({ videos }) {
       </Head>
 
 
-      <div className="flex flex-col text-center items-center py-2">
+      <div className="flex flex-col text-center">
         <div>
           <Image
             src="/logo-depois-das-6.png"
             alt="Depois das 6"
             title="Depois das 6"
-            width="320" height="320" />
+            width="320"
+            height="320" />
         </div>
+      </div>
 
-        <div className="bg-white lg:w-1/3 md:w-2/4 w-full p-4">
-          <p>Youtube</p>
+      <div className="flex flex-col items-center py-2">
+        
+        <div className="flex lg:flex-row flex-col justify-between bg-white lg:w-3/4 md:w-2/4 w-11/12 rounded shadow-xl p-4">
+          
+          <div>
+            <p className="text-center text-xl font-bold">Youtube</p>
+              {videos.items.map((video) => (
+              video.id.kind == 'youtube#video' &&
+              <div key={video.id.videoId}>
+                <YoutubeVideo video={video} />
+              </div>
+            ))}
+          </div>
 
-          {videos.items.map((video) => (
-            video.id.kind == 'youtube#video' &&
-            <div key={video.id.videoId}>
-              <YoutubeVideo video={video} />
-            </div>
-          ))}
+          <div>
+            <p className="text-center text-xl font-bold">Spotify</p>
+              {videos.items.map((video) => (
+              video.id.kind == 'youtube#video' &&
+              <div key={video.id.videoId}>
+                <YoutubeVideo video={video} />
+              </div>
+            ))}
+          </div>
 
-          <p>Spotify</p>
+          
+
         </div>
 
       </div>
